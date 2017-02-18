@@ -217,7 +217,8 @@ export default class Field extends React.Component {
         </div>
         <div>
           <h3>説明</h3>
-          同じ色を４つつなげると消えるゲームをReact.jsで実装したものです。
+          同じ色を４つ以上つなげると消えるゲームをReact.jsで実装したものです。<br />
+          不具合・リファクタすべき箇所多数あるかと思いますので優しくお伝えいただけますと幸いです。
         </div>
       </div>
     )
