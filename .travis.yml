@@ -1,0 +1,29 @@
+language: ruby
+
+rvm:
+ - 2.3.1
+sudo: required
+services:
+ - postgresql
+addons:
+  postgresql: '9.5'
+bundler_args: '--without development --deployment'
+cache: bundler
+env:
+  global:
+    - secure: ''
+    - secure: ''
+before_script:
+  - psql -U postgres -c 'create database "travis-db-test";'
+  - psql -U postgres travis-db-test -c 'create extension "uuid-ossp";'
+  - mkdir travis-phantomjs
+  - wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
+  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis-phantomjs
+  - export PATH=$PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
+  - cp config/database.travis.yml config/database.yml
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+script:
+  - bundle exec rspec spec
+after_success:
+  - bundle exec codeclimate-test-reporter

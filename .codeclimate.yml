@@ -1,0 +1,8 @@
+languages:
+  ruby: true
+  javascript: true
+
+exclude_paths:
+ - app/assets/javascripts/*
+ - spec/**/*
+ - db/*

@@ -1,0 +1,7 @@
+.ruby-version
+*.log
+/log
+tmp/*
+/frontend/node_modules
+/.bundle
+/coverage

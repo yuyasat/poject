@@ -1,0 +1,32 @@
+ja:
+  activerecord:
+    errors:
+      messages:
+        be_ten_points: 'は10ポイントにしてください'
+        not_less_than_two: 'は2つ以上にしてください'
+        not_duplicate: 'は重複できません'
+        record_invalid: "バリデーションに失敗しました: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "%{record}が存在しているので削除できません"
+          has_many: "%{record}が存在しているので削除できません"
+    attributes:
+      user:
+        email: 'メールアドレス'
+        password: 'パスワード'
+        password_confirmation: 'パスワード（再入力）'
+        current_password: '現在のパスワード'
+        remember_me: '次回から自動的にログインする'
+        nickname: 'ニックネーム'
+      question_set:
+        title: 'タイトル'
+      question:
+        title: '質問のタイトル'
+        parties_count: '政党数'
+        distinct_parties_count: '政党'
+      question_score:
+        total_score: 'ポイントの合計'
+        agree: '賛成'
+        neutral: '中立'
+        opposition: '反対'
+      scores:
+        total_score: 'ポイントの合計'

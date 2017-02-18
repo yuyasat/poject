@@ -1,0 +1,9 @@
+- if session[:errors].present? || flash[:error].present?
+  .errors-wrap
+    .errors
+      - session[:errors].each do |error_message|
+        .validation_error
+          = error_message
+      - if flash[:error].present?
+        .validation_error
+          = flash[:error]
