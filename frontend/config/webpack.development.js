@@ -3,7 +3,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'inline-source-map',
   entry: {
-    application: './src/javascripts/application.js',
+    Poject: './src/javascripts/poject.js',
   },
   output: {
     path: '../app/assets/javascripts',
@@ -15,9 +15,12 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel?presets[]=es2015,presets[]=stage-2'
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react', 'stage-2']
+        }
       },
       {
         test: /\.scss$/,

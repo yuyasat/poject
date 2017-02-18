@@ -4,12 +4,12 @@
     "build": "webpack --config config/webpack.development.js",
     "watch": "webpack --watch --config config/webpack.development.js"
   },
-  "name": "lassi",
+  "name": "poject",
   "version": "1.0.0",
-  "description": "lassi",
+  "description": "poject",
   "main": "index.js",
   "repository": {},
-  "author": "yuyataki",
+  "author": "yuyasat",
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^0.26.1",
