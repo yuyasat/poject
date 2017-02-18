@@ -5,15 +5,12 @@
  - `bin/rails db:create`
  - `bin/rails db:migrate`
 
-* Database initialization
- - `bin/rails db:seed`
-
-* How to run the test suite
- - `RAILS_ENV=test bin/rspec spec`
-
 * About frontend
  - `cd frontend`
  - `yarn install`
  - Use command `yarn run watch` when developing.
 
 * Deployment instructions
+
+* TODO
+ - Delete Poject.js because this is created automatically.
