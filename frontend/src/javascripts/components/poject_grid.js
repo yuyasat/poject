@@ -11,7 +11,6 @@ export default class Grid extends React.Component {
       j: this.props.gridState.j,
       color: this.props.gridState.color,
     }
-    this.clickGrid = this.clickGrid.bind(this)
   }
   styles() {
     const defaultStyle = {
@@ -24,9 +23,6 @@ export default class Grid extends React.Component {
     return(
       Object.assign({ defaultStyle: defaultStyle }, defaultColors())
     )
-  }
-  clickGrid() {
-    this.props.onClickGrid(this.state);
   }
 
   componentWillReceiveProps(newProps) {
@@ -51,7 +47,7 @@ export default class Grid extends React.Component {
       style = styles.defaultStyle;
     }
     return(
-      <div style={style} onClick={this.clickGrid} />
+      <div style={style} />
     )
   }
 }

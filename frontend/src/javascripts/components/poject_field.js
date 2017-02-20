@@ -4,6 +4,7 @@ import ReactDom from 'react-dom';
 import GridRow from './poject_grid_row';
 import Top from './poject_top';
 import Result from './poject_result';
+import NextField from './poject_next_field';
 
 export default class Field extends React.Component {
   // TODO: Keep the color number as static variable.
@@ -26,6 +27,10 @@ export default class Field extends React.Component {
       color1: Math.floor(Math.random() * 4) + 1,
       color2: Math.floor(Math.random() * 4) + 1,
     }
+    const nextState = {
+      color1: Math.floor(Math.random() * 4) + 1,
+      color2: Math.floor(Math.random() * 4) + 1,
+    }
 
     this.row = row;
     this.column = column;
@@ -33,6 +38,7 @@ export default class Field extends React.Component {
     this.state = {
       gridStates: gridStates,
       topState: topState,
+      nextState: nextState,
       chainCount: 0,
       maxChainCount: 0,
       keyAccept: true,
@@ -116,10 +122,17 @@ export default class Field extends React.Component {
     }, 200);
 
     const nextTopState = Object.assign(this.state.topState, {
+      color1: this.state.nextState.color1,
+      color2: this.state.nextState.color2,
+    });
+    const nextWaitingState = {
       color1: Math.floor(Math.random() * 4) + 1,
       color2: Math.floor(Math.random() * 4) + 1,
+    }
+    this.setState({
+      topState: nextTopState,
+      nextState: nextWaitingState,
     });
-    this.setState({ topState: nextTopState });
   }
 
   chain(newGridStates, chainCount) {
@@ -155,13 +168,11 @@ export default class Field extends React.Component {
         // drop
         this.setState({ gridStates: updatedGridStates });
 
-        setTimeout(() => {
-          if(count > 0) {
-            this.chain(updatedGridStates, chainCount);
-          } else {
-            this.setState({ keyAccept: true });
-          }
-        }, 200);
+        if(count > 0) {
+          setTimeout(() => { this.chain(updatedGridStates, chainCount); }, 250);
+        } else {
+          setTimeout(() => { this.setState({ keyAccept: true }); }, 50);
+        }
       }, 200);
     }, 200);
     return updatedGridStates;
@@ -186,7 +197,20 @@ export default class Field extends React.Component {
   }
 
   style() {
-    return({ height: '320px', width: '350px' })
+    return({
+      fieldWrap: {
+        width: '420px',
+        height: '320px',
+        display: 'block',
+        clear: 'both',
+        content: '',
+      },
+      field: {
+        float: 'left',
+        height: '320px',
+        width: '280px',
+      },
+    });
   }
 
   render() {
@@ -199,14 +223,17 @@ export default class Field extends React.Component {
     });
     return(
       <div>
-        <div style={this.style()}>
-          <Top
-            handleDown={this.handleDown}
-            topState={this.state.topState}
-            keyAccept={this.state.keyAccept} />
-          {grids}
+        <div style={this.style().fieldWrap}>
+          <div style={this.style().field}>
+            <Top
+              handleDown={this.handleDown}
+              topState={this.state.topState}
+              keyAccept={this.state.keyAccept} />
+            {grids}
+          </div>
+          <NextField nextState={this.state.nextState} />
+          <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
-        <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         <div>
           <h3>遊び方</h3>
           ←: 左に動かす，
