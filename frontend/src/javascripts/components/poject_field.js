@@ -5,6 +5,7 @@ import GridRow from './poject_grid_row';
 import Top from './poject_top';
 import Result from './poject_result';
 import NextField from './poject_next_field';
+import ControllerButton from './poject_controller_button';
 
 export default class Field extends React.Component {
   // TODO: Keep the color number as static variable.
@@ -200,15 +201,23 @@ export default class Field extends React.Component {
     return({
       fieldWrap: {
         width: '420px',
-        height: '320px',
+        height: '300px',
         display: 'block',
         clear: 'both',
         content: '',
       },
       field: {
         float: 'left',
-        height: '320px',
-        width: '280px',
+        height: '300px',
+        width: '260px',
+      },
+      clear: {
+        clear: 'both',
+        height: '10px',
+      },
+      controllerButtomWrap: {
+        width: '220px',
+        height: '35px',
       },
     });
   }
@@ -234,19 +243,14 @@ export default class Field extends React.Component {
           <NextField nextState={this.state.nextState} />
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
-        <div>
-          <h3>遊び方</h3>
-          ←: 左に動かす，
-          →: 右に動かす，
-          ↑,x: 右回転する，
-          z: 左回転する，
-          ↓: 落下させる
+        <div style={this.style().controllerButtomWrap}>
+          <ControllerButton position='left' />
+          <ControllerButton position='right' />
+          <ControllerButton position='b' />
+          <ControllerButton position='y' />
+          <div style={this.style().clear} />
         </div>
-        <div>
-          <h3>説明</h3>
-          同じ色を４つ以上つなげると消えるゲームをReact.jsで実装したものです。<br />
-          不具合・リファクタすべき箇所多数あるかと思いますので優しくお伝えいただけますと幸いです。
-        </div>
+        <ControllerButton position='down' />
       </div>
     )
   }
