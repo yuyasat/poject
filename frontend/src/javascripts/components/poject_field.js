@@ -46,6 +46,51 @@ export default class Field extends React.Component {
     }
 
     this.handleDown = this.handleDown.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+  }
+
+  componentDidUpdate() {
+    if(this.state.keyAccept) {
+      document.addEventListener('keydown', this.onKeyDown);
+    } else {
+      document.removeEventListener('keydown', this.onKeyDown);
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDown);
+  }
+
+  onKeyDown(e) {
+    const column = this.state.topState.column
+    const position = this.state.topState.position
+
+    let topState = this.state.topState;
+
+    // down
+    if(e.keyCode === 40) {
+      this.handleDown();
+      return;
+    }
+
+    // right
+    if(e.keyCode === 39 && column < 7) {
+      if(column === 6 || position === 0 && column === 5) { return }
+      topState.column = column + 1
+    // left
+    } else if(e.keyCode === 37 && column > 0) {
+      if(column === 0 || position === 2 && column === 1) { return }
+      topState.column = column - 1
+    // x or up
+    } else if(e.keyCode === 88 || e.keyCode === 38) {
+      if(position === 3 && column === 0 || position === 1 && column === 6) { return }
+      topState.position = position === 0 ? 3 : position - 1
+    // z
+    } else if(e.keyCode === 90 || e.keyCode === 38) {
+      if(position === 3 && column === 6 || position === 1 && column === 0) { return }
+      topState.position = position === 3 ? 0 : position + 1
+    }
+    this.setState({ topState: topState });
   }
 
   countColor(j, i, gridStates) {
@@ -86,7 +131,9 @@ export default class Field extends React.Component {
     return gridStates;
   }
 
-  handleDown(state) {
+  handleDown() {
+    const state = this.state.topState;
+
     let newGridStates = this.state.gridStates;
     // set the second grid column
     let column2;
@@ -123,12 +170,10 @@ export default class Field extends React.Component {
     }, 200);
 
     const nextTopState = Object.assign(this.state.topState, {
-      color1: this.state.nextState.color1,
-      color2: this.state.nextState.color2,
+      column: 2, color1: this.state.nextState.color1, color2: this.state.nextState.color2,
     });
     const nextWaitingState = {
-      color1: Math.floor(Math.random() * 4) + 1,
-      color2: Math.floor(Math.random() * 4) + 1,
+      color1: Math.floor(Math.random() * 4) + 1, color2: Math.floor(Math.random() * 4) + 1,
     }
     this.setState({
       topState: nextTopState,
@@ -244,13 +289,13 @@ export default class Field extends React.Component {
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
         <div style={this.style().controllerButtomWrap}>
-          <ControllerButton position='left' />
-          <ControllerButton position='right' />
-          <ControllerButton position='b' />
-          <ControllerButton position='y' />
+          <ControllerButton position='left' handleLeft={this.onKeyDown} />
+          <ControllerButton position='right' handleRight={this.onKeyDown} />
+          <ControllerButton position='b' handleB={this.onKeyDown} />
+          <ControllerButton position='y' handleY={this.onKeyDown} />
           <div style={this.style().clear} />
         </div>
-        <ControllerButton position='down' />
+        <ControllerButton position='down' handleDown={this.onKeyDown} />
       </div>
     )
   }

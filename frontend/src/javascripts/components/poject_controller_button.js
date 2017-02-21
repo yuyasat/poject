@@ -7,7 +7,17 @@ export default class ControllerButton extends React.Component {
   }
 
   handleClick() {
-
+    if(this.props.position === 'down') {
+      this.props.handleDown({ keyCode: 40 });
+    } else if(this.props.position === 'left') {
+      this.props.handleLeft({ keyCode: 37 });
+    } else if(this.props.position === 'right') {
+      this.props.handleRight({ keyCode: 39 });
+    } else if(this.props.position === 'b') {
+      this.props.handleB({ keyCode: 88 });
+    } else if(this.props.position === 'y') {
+      this.props.handleY({ keyCode: 90 });
+    }
   }
 
   style() {
@@ -19,7 +29,7 @@ export default class ControllerButton extends React.Component {
         marginLeft: '-15px',
         marginRight: '20px',
         borderTop: '15px solid transparent',
-        borderRight: '25px solid #f00',
+        borderRight: '25px solid #bdbdbd',
         borderBottom: '15px solid transparent',
         borderLeft: '25px solid transparent',
       },
@@ -30,20 +40,20 @@ export default class ControllerButton extends React.Component {
         borderTop: '15px solid transparent',
         borderRight: '25px solid transparent',
         borderBottom: '15px solid transparent',
-        borderLeft: '25px solid #f00',
+        borderLeft: '25px solid #bdbdbd',
       },
       down: {
         width: '0',
         height: '0',
         marginLeft: '25px',
-        borderTop: '20px solid #f00',
+        borderTop: '20px solid #bdbdbd',
         borderRight: '20px solid transparent',
         borderBottom: '20px solid transparent',
         borderLeft: '20px solid transparent',
       },
       b: {
         float: 'right',
-        backgroundColor: '#ff0000',
+        backgroundColor: '#facc2e',
         borderRadius: '50%',
         height: '30px',
         width: '30px',
@@ -53,7 +63,7 @@ export default class ControllerButton extends React.Component {
       },
       y: {
         float: 'right',
-        backgroundColor: '#ff0000',
+        backgroundColor: '#04b431',
         borderRadius: '50%',
         height: '30px',
         width: '30px',
@@ -63,26 +73,13 @@ export default class ControllerButton extends React.Component {
   }
 
   render() {
-    let style;
-    if(this.props.position === 'left') {
-      style = this.style().left;
-    } else if(this.props.position === 'right') {
-      style = this.style().right;
-    } else if(this.props.position === 'down') {
-      style = this.style().down;
-    } else if(this.props.position === 'b') {
-      style = this.style().b;
-    } else if(this.props.position === 'y') {
-      style = this.style().y;
-    }
-    let buttonText;
-    if(this.props.position === 'b') {
-      buttonText = 'B'
-    } else if(this.props.position === 'y') {
-      buttonText = 'Y'
-    }
+    const style = {
+      left: this.style().left, right: this.style().right, down: this.style().down,
+      b: this.style().b, y: this.style().y
+    }[this.props.position]
+
     return(
-      <div style={style} onClick={this.handleClick}>{buttonText}</div>
+      <div style={style} onClick={this.handleClick} />
     )
   }
 }
