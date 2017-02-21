@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'pages#index'
-  get 'pages/poject'
+  get 'poject' => 'pages#poject'
+  get 'pages/poject' => redirect('poject', status: 301)
 
   get '/404' => 'errors#render_404'
   get '/500' => 'errors#render_500'
