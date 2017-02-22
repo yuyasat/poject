@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDom from 'react-dom'
 
 import TopGrid from './poject_top_grid'
 
@@ -27,7 +26,6 @@ export default class Top extends React.Component {
   }
 
   render () {
-    const column = this.state.column
     const key = new Date().getTime()
 
     return (

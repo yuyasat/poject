@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDom from 'react-dom'
 
 import { defaultColors } from '../modules/poject_styles.js'
 
