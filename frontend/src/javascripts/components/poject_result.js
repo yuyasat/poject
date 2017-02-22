@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 
 export default class Result extends React.Component {
-  style() {
-    return({
+  style () {
+    return ({
       defaultStyle: {
         float: 'left',
-        width: '100px',
-      },
+        width: '100px'
+      }
     })
   }
 
-  render() {
-    const chainCount = this.props.chainCount;
-    const maxChainCount = this.props.maxChainCount;
+  render () {
+    const chainCount = this.props.chainCount
+    const maxChainCount = this.props.maxChainCount
 
-    return(
+    return (
       <div style={this.style().defaultStyle}>
         <div>連鎖数: {chainCount}</div>
         <div>最大連鎖数: {maxChainCount}</div>

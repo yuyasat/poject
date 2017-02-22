@@ -1,3 +1,3 @@
-require('../stylesheets/application.scss');
+require('../stylesheets/application.scss')
 
 import './index'
