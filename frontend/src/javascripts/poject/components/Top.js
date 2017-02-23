@@ -11,7 +11,7 @@ export default class Top extends React.Component {
   styles () {
     return ({
       defaultStyle: {
-        height: '42px',
+        height: '50px',
         white_space: 'pre-wrap'
       }
     })
