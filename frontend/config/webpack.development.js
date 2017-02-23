@@ -3,7 +3,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'inline-source-map',
   entry: {
-    Poject: './src/javascripts/poject.js',
+    Poject: './src/javascripts/poject',
   },
   output: {
     path: '../app/assets/javascripts',

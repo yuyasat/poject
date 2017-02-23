@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    Poject: './src/javascripts/poject.js',
+    Poject: './src/javascripts/poject',
   },
   output: {
     path: '../app/assets/javascripts',

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import TopGrid from './poject_top_grid'
+import TopGrid from './TopGrid'
 
 export default class Top extends React.Component {
   constructor (props) {

@@ -1,10 +1,10 @@
 import React from 'react'
 
-import GridRow from './poject_grid_row'
-import Top from './poject_top'
-import Result from './poject_result'
-import NextField from './poject_next_field'
-import ControllerButton from './poject_controller_button'
+import GridRow from './GridRow'
+import Top from './Top'
+import Result from './Result'
+import NextField from './NextField'
+import ControllerButton from './ControllerButton'
 
 export default class Field extends React.Component {
   // TODO: Keep the color number as static variable.

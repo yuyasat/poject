@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { defaultColors } from '../modules/poject_styles.js'
+import { defaultColors } from '../modules/Styles'
 
 export default class Grid extends React.Component {
   constructor (props) {

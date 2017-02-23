@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Grid from './poject_grid'
+import Grid from './Grid'
 
 export default class GridRow extends React.Component {
   style () {

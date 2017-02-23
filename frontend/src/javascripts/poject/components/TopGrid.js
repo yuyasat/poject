@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { defaultColors } from '../modules/poject_styles.js'
+import { defaultColors } from '../modules/Styles.js'
 
 export default class TopGrid extends React.Component {
   styles () {

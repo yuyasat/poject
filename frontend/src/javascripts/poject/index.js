@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 
-import Field from './components/poject_field'
+import Field from './components/field'
 
-// This is original React.js example.
 ReactDom.render(
   <Field />,
   document.getElementById('poject')
