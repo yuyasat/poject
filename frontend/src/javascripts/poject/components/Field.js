@@ -169,7 +169,8 @@ export default class Field extends React.Component {
     }, 200)
 
     const nextTopState = Object.assign(this.state.topState, {
-      column: 2, color1: this.state.nextState.color1, color2: this.state.nextState.color2
+      column: 2, position: 1,
+      color1: this.state.nextState.color1, color2: this.state.nextState.color2
     })
     const nextWaitingState = {
       color1: Math.floor(Math.random() * 4) + 1, color2: Math.floor(Math.random() * 4) + 1
