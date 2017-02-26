@@ -12,11 +12,9 @@ export default class GridRow extends React.Component {
   }
 
   render () {
-    const row = this.props.gridStateRow.map((gridState) => {
+    const row = this.props.gridStateRow.map((gridState, i) => {
       return (
-        <Grid
-          key={'grid' + gridState.i + gridState.j}
-          gridState={gridState} />
+        <Grid key={'grid' + i} gridState={gridState} />
       )
     })
     return (

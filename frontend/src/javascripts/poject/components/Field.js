@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 
 import GameSetting, { Position } from '../modules/GameSetting'
 import KeyCode from '../modules/KeyCode'
@@ -15,13 +16,14 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
 
-    const gridStates = Array.from(Array(GameSetting.row).keys()).map((index_j) => {
-      return (
-        Array.from(Array(GameSetting.column).keys()).map((index_i) => {
-          return { color: 0, i: index_i, j: index_j }
+    const gridStates = _.times(GameSetting.row, (j) => {
+      return(
+        _.times(GameSetting.column, (i) => {
+          return { color: 0 }
         })
       )
     })
+
     const topState = {
       column: GameSetting.initialColumn,
       position: GameSetting.initialPosition,
@@ -264,10 +266,10 @@ export default class Field extends React.Component {
   }
 
   render () {
-    const grids = this.state.gridStates.map((gridStateRow, index_j) => {
+    const grids = this.state.gridStates.map((gridStateRow, j) => {
       return (
         <GridRow
-          key={'row' + index_j}
+          key={'row' + j}
           gridStateRow={gridStateRow} />
       )
     })

@@ -6,8 +6,6 @@ export default class Grid extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      i: this.props.gridState.i,
-      j: this.props.gridState.j,
       color: this.props.gridState.color
     }
   }
