@@ -67,36 +67,43 @@ export default class Field extends React.Component {
   }
 
   onKeyDown (e) {
-    const column = this.state.topState.column
-    const position = this.state.topState.position
-
-    let topState = this.state.topState
-
     if (e.keyCode === KeyCode.down) {
       this.handleDown()
       return
     }
 
-    if (e.keyCode === KeyCode.right && column < GameSetting.column) {
-      if (column === GameSetting.column - 1 ||
-          (position === GameSetting.right && column === GameSetting.column - 2)) { return }
-      topState.column = column + 1
-    } else if (e.keyCode === KeyCode.left && column > 0) {
-      if (column === 0 || (position === Position.left && column === 1)) { return }
-      topState.column = column - 1
-    } else if (e.keyCode === KeyCode.x || e.keyCode === KeyCode.up) {
-      if ((position === Position.down && column === 0) ||
-          (position === Position.up && column === GameSetting.column - 1)) { return }
-      topState.position = position === Position.right ? Position.down : position - 1
-    } else if (e.keyCode === KeyCode.z) {
-      if ((position === Position.down && column === GameSetting.column - 1) ||
-          position === Position.up && column === 0) { return }
-      topState.position = position === Position.down ? Position.up : position + 1
-    }
+    const topState = Object.assign(
+      {},
+      this.state.topState,
+      this.getTopState(this.state.topState, e.keyCode)
+    )
+
     this.setState({ topState: topState })
   }
 
+  getTopState(topState, keyCode) {
+    const { column, position } = topState
 
+    if (keyCode === KeyCode.right && column < GameSetting.column) {
+      if (column === GameSetting.column - 1 ||
+          (position === GameSetting.right && column === GameSetting.column - 2)) { return }
+      return { column: column + 1 }
+    }
+    if (keyCode === KeyCode.left && column > 0) {
+      if (column === 0 || (position === Position.left && column === 1)) { return }
+      return { column: column - 1 }
+    }
+    if (keyCode === KeyCode.x || keyCode === KeyCode.up) {
+      if ((position === Position.down && column === 0) ||
+          (position === Position.up && column === GameSetting.column - 1)) { return }
+      return { position: position === Position.right ? Position.down : position - 1 }
+    }
+    if (keyCode === KeyCode.z) {
+      if ((position === Position.down && column === GameSetting.column - 1) ||
+          (position === Position.up && column === 0)) { return }
+      return { position: position === Position.down ? Position.up : position + 1 }
+    }
+  }
 
   handleDown () {
     const state = this.state.topState
