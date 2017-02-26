@@ -3,5 +3,7 @@
 /log
 tmp/*
 /frontend/node_modules
+/frontend/src/index.js
+/frontend/public/*
 /.bundle
 /coverage
