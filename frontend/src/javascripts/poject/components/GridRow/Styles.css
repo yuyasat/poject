@@ -1,0 +1,5 @@
+.GridRow {
+  display: block;
+  clear: both;
+  content: '';
+}
