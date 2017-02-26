@@ -1,5 +1,8 @@
 import React from 'react'
 
+import GameSetting, { Position } from '../modules/GameSetting'
+import KeyCode from '../modules/KeyCode'
+
 import GridRow from './GridRow'
 import Top from './Top'
 import Result from './Result'
@@ -12,18 +15,16 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
 
-    const row = 11
-    const column = 7
-    const gridStates = Array.from(Array(row).keys()).map((index_j) => {
+    const gridStates = Array.from(Array(GameSetting.row).keys()).map((index_j) => {
       return (
-        Array.from(Array(column).keys()).map((index_i) => {
+        Array.from(Array(GameSetting.column).keys()).map((index_i) => {
           return { color: 0, i: index_i, j: index_j }
         })
       )
     })
     const topState = {
-      column: 2,
-      position: 1, // 0: 右, 1: 上, 2: 左, 3: 下
+      column: GameSetting.initialColumn,
+      position: GameSetting.initialPosition,
       color1: Math.floor(Math.random() * 4) + 1,
       color2: Math.floor(Math.random() * 4) + 1
     }
@@ -31,9 +32,6 @@ export default class Field extends React.Component {
       color1: Math.floor(Math.random() * 4) + 1,
       color2: Math.floor(Math.random() * 4) + 1
     }
-
-    this.row = row
-    this.column = column
 
     this.state = {
       gridStates: gridStates,
@@ -66,28 +64,26 @@ export default class Field extends React.Component {
 
     let topState = this.state.topState
 
-    // down
-    if (e.keyCode === 40) {
+    if (e.keyCode === KeyCode.down) {
       this.handleDown()
       return
     }
 
-    // right
-    if (e.keyCode === 39 && column < 7) {
-      if (column === 6 || position === 0 && column === 5) { return }
+    if (e.keyCode === KeyCode.right && column < GameSetting.column) {
+      if (column === GameSetting.column - 1 ||
+          (position === GameSetting.right && column === GameSetting.column - 2)) { return }
       topState.column = column + 1
-    // left
-    } else if (e.keyCode === 37 && column > 0) {
-      if (column === 0 || position === 2 && column === 1) { return }
+    } else if (e.keyCode === KeyCode.left && column > 0) {
+      if (column === 0 || (position === Position.left && column === 1)) { return }
       topState.column = column - 1
-    // x or up
-    } else if (e.keyCode === 88 || e.keyCode === 38) {
-      if (position === 3 && column === 0 || position === 1 && column === 6) { return }
-      topState.position = position === 0 ? 3 : position - 1
-    // z
-    } else if (e.keyCode === 90 || e.keyCode === 38) {
-      if (position === 3 && column === 6 || position === 1 && column === 0) { return }
-      topState.position = position === 3 ? 0 : position + 1
+    } else if (e.keyCode === KeyCode.x || e.keyCode === KeyCode.up) {
+      if ((position === Position.down && column === 0) ||
+          (position === Position.up && column === GameSetting.column - 1)) { return }
+      topState.position = position === Position.right ? Position.down : position - 1
+    } else if (e.keyCode === KeyCode.z) {
+      if ((position === Position.down && column === GameSetting.column - 1) ||
+          position === Position.up && column === 0) { return }
+      topState.position = position === Position.down ? Position.up : position + 1
     }
     this.setState({ topState: topState })
   }
@@ -99,13 +95,13 @@ export default class Field extends React.Component {
     if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
       n += this.countColor(j - 1, i, gridStates)
     }
-    if (j + 1 < this.row && gridStates[j + 1][i].color === color) {
+    if (j + 1 < GameSetting.row && gridStates[j + 1][i].color === color) {
       n += this.countColor(j + 1, i, gridStates)
     }
     if (i - 1 >= 0 && gridStates[j][i - 1].color === color) {
       n += this.countColor(j, i - 1, gridStates)
     }
-    if (i + 1 < this.column && gridStates[j][i + 1].color === color) {
+    if (i + 1 < GameSetting.column && gridStates[j][i + 1].color === color) {
       n += this.countColor(j, i + 1, gridStates)
     }
     gridStates[j][i].color = color
@@ -118,13 +114,13 @@ export default class Field extends React.Component {
     if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
       this.deleteColor(j - 1, i, gridStates)
     }
-    if (j + 1 < this.row && gridStates[j + 1][i].color === color) {
+    if (j + 1 < GameSetting.row && gridStates[j + 1][i].color === color) {
       this.deleteColor(j + 1, i, gridStates)
     }
     if (i - 1 >= 0 && gridStates[j][i - 1].color === color) {
       this.deleteColor(j, i - 1, gridStates)
     }
-    if (i + 1 < this.column && gridStates[j][i + 1].color === color) {
+    if (i + 1 < GameSetting.column && gridStates[j][i + 1].color === color) {
       this.deleteColor(j, i + 1, gridStates)
     }
     return gridStates
@@ -136,9 +132,9 @@ export default class Field extends React.Component {
     let newGridStates = this.state.gridStates
     // set the second grid column
     let column2
-    if (state.position === 0) {
+    if (state.position === Position.right) {
       column2 = state.column + 1
-    } else if (state.position === 2) {
+    } else if (state.position === Position.left) {
       column2 = state.column - 1
     } else {
       column2 = state.column
@@ -146,17 +142,17 @@ export default class Field extends React.Component {
 
     if (state.column === column2 && newGridStates[0][state.column].color !== 0) { return }
 
-    let r1 = this.row - 1
-    let row1 = state.position === 3 ? r1 - 1 : r1 // 3 means lower
+    let r1 = GameSetting.row - 1
+    let row1 = state.position === Position.down ? r1 - 1 : r1 // 3 means lower
     while (r1 >= 0 && newGridStates[r1][state.column].color) {
-      row1 = state.position === 3 ? r1 - 2 : r1 - 1
+      row1 = state.position === Position.down ? r1 - 2 : r1 - 1
       r1--
     }
 
-    let r2 = this.row - 1
-    let row2 = state.position === 1 ? r2 - 1 : r2 // 1 means upper
+    let r2 = GameSetting.row - 1
+    let row2 = state.position === Position.up ? r2 - 1 : r2 // 1 means upper
     while (r2 >= 0 && newGridStates[r2][column2].color) {
-      row2 = state.position === 1 ? r2 - 2 : r2 - 1
+      row2 = state.position === Position.up ? r2 - 2 : r2 - 1
       r2--
     }
 
@@ -169,7 +165,7 @@ export default class Field extends React.Component {
     }, 200)
 
     const nextTopState = Object.assign(this.state.topState, {
-      column: 2, position: 1,
+      column: GameSetting.initialColumn, position: GameSetting.initialPosition,
       color1: this.state.nextState.color1, color2: this.state.nextState.color2
     })
     const nextWaitingState = {
