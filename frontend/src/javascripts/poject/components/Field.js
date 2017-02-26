@@ -10,6 +10,8 @@ import Result from './Result'
 import NextField from './NextField'
 import ControllerButton from './ControllerButton'
 
+import { countColor, deleteColor } from '../modules/Algorithm'
+
 export default class Field extends React.Component {
   // TODO: Keep the color number as static variable.
   // 1: red, 2: blue, 3: green, 4: yellow
@@ -90,43 +92,7 @@ export default class Field extends React.Component {
     this.setState({ topState: topState })
   }
 
-  countColor (j, i, gridStates) {
-    const color = gridStates[j][i].color
-    let n = 1
-    gridStates[j][i].color = 0
-    if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
-      n += this.countColor(j - 1, i, gridStates)
-    }
-    if (j + 1 < GameSetting.row && gridStates[j + 1][i].color === color) {
-      n += this.countColor(j + 1, i, gridStates)
-    }
-    if (i - 1 >= 0 && gridStates[j][i - 1].color === color) {
-      n += this.countColor(j, i - 1, gridStates)
-    }
-    if (i + 1 < GameSetting.column && gridStates[j][i + 1].color === color) {
-      n += this.countColor(j, i + 1, gridStates)
-    }
-    gridStates[j][i].color = color
-    return n
-  }
 
-  deleteColor (j, i, gridStates) {
-    const color = gridStates[j][i].color
-    gridStates[j][i].color = 0
-    if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
-      this.deleteColor(j - 1, i, gridStates)
-    }
-    if (j + 1 < GameSetting.row && gridStates[j + 1][i].color === color) {
-      this.deleteColor(j + 1, i, gridStates)
-    }
-    if (i - 1 >= 0 && gridStates[j][i - 1].color === color) {
-      this.deleteColor(j, i - 1, gridStates)
-    }
-    if (i + 1 < GameSetting.column && gridStates[j][i + 1].color === color) {
-      this.deleteColor(j, i + 1, gridStates)
-    }
-    return gridStates
-  }
 
   handleDown () {
     const state = this.state.topState
@@ -184,12 +150,12 @@ export default class Field extends React.Component {
     let deletedColor = 0
     for (let j = 0; j < newGridStates.length; j++) {
       for (let i = 0; i < newGridStates[0].length; i++) {
-        if (newGridStates[j][i].color > 0 && this.countColor(j, i, newGridStates) >= 4) {
+        if (newGridStates[j][i].color > 0 && countColor(j, i, newGridStates) >= 4) {
           if (deletedColor === 0 || deletedColor === newGridStates[j][i].color) {
             deletedColor = newGridStates[j][i].color
             chainCount++
           }
-          updatedGridStates = this.deleteColor(j, i, newGridStates)
+          updatedGridStates = deleteColor(j, i, newGridStates)
           this.setState({ chainCount: chainCount })
           if (this.state.maxChainCount < chainCount) {
             this.setState({ maxChainCount: chainCount })
