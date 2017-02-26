@@ -105,21 +105,24 @@ export default class Field extends React.Component {
     }
   }
 
+  getSecondGridColumn(topState) {
+    if (topState.position === Position.right) {
+      return topState.column + 1
+    } else if (topState.position === Position.left) {
+      return topState.column - 1
+    } else {
+      return topState.column
+    }
+  }
+
   handleDown () {
     const state = this.state.topState
 
     let newGridStates = this.state.gridStates
-    // set the second grid column
-    let column2
-    if (state.position === Position.right) {
-      column2 = state.column + 1
-    } else if (state.position === Position.left) {
-      column2 = state.column - 1
-    } else {
-      column2 = state.column
-    }
 
-    if (state.column === column2 && newGridStates[0][state.column].color !== 0) { return }
+    const secondGridColumn = this.getSecondGridColumn(this.state.topState)
+
+    if (state.column === secondGridColumn && newGridStates[0][state.column].color !== 0) { return }
 
     let r1 = GameSetting.row - 1
     let row1 = state.position === Position.down ? r1 - 1 : r1 // 3 means lower
@@ -130,13 +133,13 @@ export default class Field extends React.Component {
 
     let r2 = GameSetting.row - 1
     let row2 = state.position === Position.up ? r2 - 1 : r2 // 1 means upper
-    while (r2 >= 0 && newGridStates[r2][column2].color) {
+    while (r2 >= 0 && newGridStates[r2][secondGridColumn].color) {
       row2 = state.position === Position.up ? r2 - 2 : r2 - 1
       r2--
     }
 
     if (row1 >= 0) { newGridStates[row1][state.column].color = state.color1 }
-    if (row2 >= 0) { newGridStates[row2][column2].color = state.color2 }
+    if (row2 >= 0) { newGridStates[row2][secondGridColumn].color = state.color2 }
     this.setState({ gridStates: newGridStates, keyAccept: false })
 
     setTimeout(() => {
