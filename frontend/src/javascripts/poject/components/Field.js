@@ -62,6 +62,10 @@ export default class Field extends React.Component {
     document.addEventListener('keydown', this.onKeyDown)
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown)
+  }
+
   onKeyDown (e) {
     const column = this.state.topState.column
     const position = this.state.topState.position
