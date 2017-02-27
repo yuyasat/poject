@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 
-import GameSetting, { Position } from '../modules/GameSetting'
+import GameSetting from '../modules/GameSetting'
 import KeyCode from '../modules/KeyCode'
 
 import GridRow from './GridRow'
@@ -11,6 +11,19 @@ import NextField from './NextField'
 import ControllerButton from './ControllerButton'
 
 import { countColor, deleteColor } from '../modules/Algorithm'
+import {
+  getMovedFirstColumn, getMovedSecondColumn,
+  getRotatedSecondColumn, getRotatedSecondRow
+} from '../modules/KeyOperation'
+
+const initialTopState = {
+  firstColumn: GameSetting.initialColumn,
+  secondColumn: GameSetting.initialColumn,
+  firstRow: GameSetting.initialFirstRow,
+  secondRow: GameSetting.initialSecondRow,
+  firstColor: 0,
+  secondColor: 0
+}
 
 export default class Field extends React.Component {
   // TODO: Keep the color number as static variable.
@@ -26,21 +39,29 @@ export default class Field extends React.Component {
       )
     })
 
-    const topState = {
-      column: GameSetting.initialColumn,
-      position: GameSetting.initialPosition,
-      color1: Math.floor(Math.random() * 4) + 1,
-      color2: Math.floor(Math.random() * 4) + 1
-    }
+    const topState = Object.assign(initialTopState, {
+      firstColor: Math.floor(Math.random() * 4) + 1,
+      secondColor: Math.floor(Math.random() * 4) + 1
+    })
+
+    const topGridStates = _.times(3, (j) => {
+      return(
+        _.times(GameSetting.column, (i) => {
+          return { color: this.getInitialColor(j, i, topState) }
+        })
+      )
+    })
+
     const nextState = {
-      color1: Math.floor(Math.random() * 4) + 1,
-      color2: Math.floor(Math.random() * 4) + 1
+      firstColor: Math.floor(Math.random() * 4) + 1,
+      secondColor: Math.floor(Math.random() * 4) + 1
     }
 
     this.state = {
-      gridStates: gridStates,
-      topState: topState,
-      nextState: nextState,
+      gridStates,
+      topGridStates,
+      topState,
+      nextState,
       chainCount: 0,
       maxChainCount: 0,
       keyAccept: true
@@ -66,6 +87,16 @@ export default class Field extends React.Component {
     document.removeEventListener('keydown', this.onKeyDown)
   }
 
+  getInitialColor(j, i, topState) {
+    if (i === GameSetting.initialColumn && j === GameSetting.initialSecondRow) {
+      return topState.secondColor
+    }
+    if (i === GameSetting.initialColumn && j === GameSetting.initialFirstRow) {
+      return topState.firstColor
+    }
+    return 0
+  }
+
   onKeyDown (e) {
     if (e.keyCode === KeyCode.down) {
       this.handleDown()
@@ -78,84 +109,99 @@ export default class Field extends React.Component {
       this.getTopState(this.state.topState, e.keyCode)
     )
 
-    this.setState({ topState: topState })
+    this.setState({
+      topGridStates: this.getTopGridStates(this.state.topGridStates, topState),
+      topState: topState
+    })
   }
 
   getTopState(topState, keyCode) {
-    const { column, position } = topState
-
-    if (keyCode === KeyCode.right && column < GameSetting.column) {
-      if (column === GameSetting.column - 1 ||
-          (position === GameSetting.right && column === GameSetting.column - 2)) { return }
-      return { column: column + 1 }
+    if (keyCode === KeyCode.right) {
+      return {
+        firstColumn: getMovedFirstColumn(topState, 'right'),
+        secondColumn: getMovedSecondColumn(topState, 'right')
+      }
     }
-    if (keyCode === KeyCode.left && column > 0) {
-      if (column === 0 || (position === Position.left && column === 1)) { return }
-      return { column: column - 1 }
+    if (keyCode === KeyCode.left) {
+      return {
+        firstColumn: getMovedFirstColumn(topState, 'left'),
+        secondColumn: getMovedSecondColumn(topState, 'left')
+      }
     }
     if (keyCode === KeyCode.x || keyCode === KeyCode.up) {
-      if ((position === Position.down && column === 0) ||
-          (position === Position.up && column === GameSetting.column - 1)) { return }
-      return { position: position === Position.right ? Position.down : position - 1 }
+      return {
+        secondColumn: getRotatedSecondColumn(topState, 'right'),
+        secondRow: getRotatedSecondRow(topState, 'right')
+      }
     }
     if (keyCode === KeyCode.z) {
-      if ((position === Position.down && column === GameSetting.column - 1) ||
-          (position === Position.up && column === 0)) { return }
-      return { position: position === Position.down ? Position.up : position + 1 }
+      return {
+        secondColumn: getRotatedSecondColumn(topState, 'left'),
+        secondRow: getRotatedSecondRow(topState, 'left')
+      }
     }
   }
 
-  getSecondGridColumn(topState) {
-    if (topState.position === Position.right) {
-      return topState.column + 1
-    } else if (topState.position === Position.left) {
-      return topState.column - 1
-    } else {
-      return topState.column
-    }
+  getTopGridStates(topGridStates, topState) {
+    const { firstColumn, firstRow, firstColor, secondColumn, secondRow, secondColor } = topState
+
+    topGridStates = _.times(3, () => {
+      return _.times(GameSetting.column, () => { return { color: 0 } })
+    })
+    topGridStates[firstRow][firstColumn].color = firstColor
+    topGridStates[secondRow][secondColumn].color = secondColor
+
+    return topGridStates
   }
 
   handleDown () {
-    const state = this.state.topState
+    const topState = this.state.topState
+    const { firstColumn, firstRow, secondColumn, secondRow } = topState
 
     let newGridStates = this.state.gridStates
 
-    const secondGridColumn = this.getSecondGridColumn(this.state.topState)
-
-    if (state.column === secondGridColumn && newGridStates[0][state.column].color !== 0) { return }
+    if (firstColumn === secondColumn && newGridStates[0][firstColumn].color !== 0) { return }
 
     let r1 = GameSetting.row - 1
-    let row1 = state.position === Position.down ? r1 - 1 : r1 // 3 means lower
-    while (r1 >= 0 && newGridStates[r1][state.column].color) {
-      row1 = state.position === Position.down ? r1 - 2 : r1 - 1
+    let row1 = secondRow === firstRow + 1 ? r1 - 1 : r1
+    while (r1 >= 0 && newGridStates[r1][topState.firstColumn].color) {
+      row1 = secondRow === firstRow + 1 ? r1 - 2 : r1 - 1
       r1--
     }
 
     let r2 = GameSetting.row - 1
-    let row2 = state.position === Position.up ? r2 - 1 : r2 // 1 means upper
-    while (r2 >= 0 && newGridStates[r2][secondGridColumn].color) {
-      row2 = state.position === Position.up ? r2 - 2 : r2 - 1
+    let row2 = secondRow === firstRow - 1 ? r2 - 1 : r2
+    while (r2 >= 0 && newGridStates[r2][secondColumn].color) {
+      row2 = secondRow === firstRow - 1 ? r2 - 2 : r2 - 1
       r2--
     }
 
-    if (row1 >= 0) { newGridStates[row1][state.column].color = state.color1 }
-    if (row2 >= 0) { newGridStates[row2][secondGridColumn].color = state.color2 }
-    this.setState({ gridStates: newGridStates, keyAccept: false })
+    if (row1 >= 0) { newGridStates[row1][firstColumn].color = topState.firstColor }
+    if (row2 >= 0) { newGridStates[row2][secondColumn].color = topState.secondColor }
+
+    this.setState({
+      gridStates: newGridStates,
+      keyAccept: false
+    })
 
     setTimeout(() => {
       this.chain(newGridStates, 0)
     }, 200)
 
-    const nextTopState = Object.assign(this.state.topState, {
-      column: GameSetting.initialColumn, position: GameSetting.initialPosition,
-      color1: this.state.nextState.color1, color2: this.state.nextState.color2
+    const nextTopState = Object.assign(initialTopState, {
+      firstColor: this.state.nextState.firstColor,
+      secondColor: this.state.nextState.secondColor
     })
+
     const nextWaitingState = {
-      color1: Math.floor(Math.random() * 4) + 1, color2: Math.floor(Math.random() * 4) + 1
+      firstColor: Math.floor(Math.random() * 4) + 1,
+      secondColor: Math.floor(Math.random() * 4) + 1
     }
+
     this.setState({
+      topGridStates: this.getTopGridStates(this.state.topGridStates, nextTopState),
       topState: nextTopState,
-      nextState: nextWaitingState
+      nextState: nextWaitingState,
     })
   }
 
@@ -250,6 +296,7 @@ export default class Field extends React.Component {
       return (
         <GridRow
           key={'row' + j}
+          type='Field'
           gridStateRow={gridStateRow} />
       )
     })
@@ -260,6 +307,7 @@ export default class Field extends React.Component {
             <Top
               handleDown={this.handleDown}
               topState={this.state.topState}
+              topGridStates={this.state.topGridStates}
               keyAccept={this.state.keyAccept} />
             {grids}
           </div>

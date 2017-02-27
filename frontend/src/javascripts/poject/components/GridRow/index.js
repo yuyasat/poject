@@ -4,17 +4,19 @@ import Grid from '../Grid'
 
 import './Styles.css'
 
-export default class GridRow extends React.Component {
-  render () {
-    const row = this.props.gridStateRow.map((gridState, i) => {
-      return (
-        <Grid key={'grid' + i} gridState={gridState} />
-      )
-    })
+export default function GridRow(props) {
+  const row = props.gridStateRow.map((gridState, i) => {
     return (
-      <div className="GridRow">
-        {row}
-      </div>
+      <Grid
+        key={'grid' + i}
+        type={props.type}
+        gridState={gridState} />
     )
-  }
+  })
+
+  return (
+    <div className="GridRow">
+      {row}
+    </div>
+  )
 }
