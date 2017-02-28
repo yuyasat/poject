@@ -10,7 +10,7 @@ import Result from '../Result'
 import NextField from '../NextField'
 import ControllerButton from '../ControllerButton'
 
-import { countColor, deleteColor } from '../../modules/Algorithm'
+import { countColor, deleteColor, allocateGrids } from '../../modules/Algorithm'
 import {
   getMovedFirstColumn, getMovedSecondColumn,
   getRotatedSecondColumn, getRotatedSecondRow
@@ -190,25 +190,24 @@ export default class Field extends React.Component {
       this.chain(newGridStates, 0)
     }, 200)
 
-    const nextTopState = Object.assign(initialTopState, {
+    const waitingTopState = Object.assign(initialTopState, {
       firstColor: this.state.nextState.firstColor,
       secondColor: this.state.nextState.secondColor
     })
 
-    const nextWaitingState = {
+    const waitingNextState = {
       firstColor: Math.floor(Math.random() * 4) + 1,
       secondColor: Math.floor(Math.random() * 4) + 1
     }
 
     this.setState({
-      topGridStates: this.getTopGridStates(this.state.topGridStates, nextTopState),
-      topState: nextTopState,
-      nextState: nextWaitingState,
+      topGridStates: this.getTopGridStates(this.state.topGridStates, waitingTopState),
+      topState: waitingTopState,
+      nextState: waitingNextState,
     })
   }
 
   chain (newGridStates, chainCount) {
-    let updatedGridStates = newGridStates
     let deletedColor = 0
     newGridStates.forEach((grids, j) => {
       grids.forEach((grid, i) => {
@@ -217,7 +216,7 @@ export default class Field extends React.Component {
             deletedColor = grid.color
             chainCount++
           }
-          updatedGridStates = deleteColor(j, i, newGridStates)
+          newGridStates = deleteColor(j, i, newGridStates)
           this.setState({ chainCount: chainCount })
           if (this.state.maxChainCount < chainCount) {
             this.setState({ maxChainCount: chainCount })
@@ -228,45 +227,27 @@ export default class Field extends React.Component {
 
     setTimeout(() => {
       // delete
-      this.setState({ gridStates: updatedGridStates })
+      this.setState({ gridStates: newGridStates })
 
       setTimeout(() => {
-        this.dropGrids(updatedGridStates, chainCount)
+        this.dropGrids(newGridStates, chainCount)
       }, 200)
     }, 200)
-    return updatedGridStates
+    return newGridStates
   }
 
-  dropGrids (updatedGridStates ,chainCount) {
-    const { count, gridStates } = this.allocateGrids(updatedGridStates)
+  dropGrids (newGridStates ,chainCount) {
+    const { count, gridStates } = allocateGrids(newGridStates)
 
-    // drop
     this.setState({ gridStates })
 
     if (count > 0) {
-      setTimeout(() => { this.chain(gridStates, chainCount) }, 250)
+      setTimeout(() => { this.chain(gridStates, chainCount) }, 200)
     } else {
-      setTimeout(() => { this.setState({ keyAccept: true }) }, 50)
+      this.setState({ keyAccept: true })
     }
   }
 
-  allocateGrids (gridStates) {
-    let newGridStates = gridStates
-    let count = 0
-    for (let i = 0; i < gridStates[0].length; i++) {
-      let spaces = 0
-      for (let j = gridStates.length - 1; j >= 0; j--) {
-        if (!newGridStates[j][i].color) {
-          spaces++
-        } else if (spaces > 0) {
-          newGridStates[j + spaces][i].color = newGridStates[j][i].color
-          newGridStates[j][i].color = 0
-          count++
-        }
-      }
-    }
-    return { count: count, gridStates: newGridStates }
-  }
 
   render () {
     const grids = this.state.gridStates.map((gridStateRow, j) => {

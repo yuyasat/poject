@@ -37,3 +37,20 @@ export function deleteColor (j, i, gridStates) {
   }
   return gridStates
 }
+
+export function allocateGrids (gridStates) {
+  let count = 0
+  for (let i = 0; i < gridStates[0].length; i++) {
+    let spaces = 0
+    for (let j = gridStates.length - 1; j >= 0; j--) {
+      if (!gridStates[j][i].color) {
+        spaces++
+      } else if (spaces > 0) {
+        gridStates[j + spaces][i].color = gridStates[j][i].color
+        gridStates[j][i].color = 0
+        count++
+      }
+    }
+  }
+  return { count, gridStates }
+}
