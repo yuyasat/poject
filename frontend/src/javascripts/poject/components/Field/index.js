@@ -1,20 +1,22 @@
 import React from 'react'
 import _ from 'lodash'
 
-import GameSetting from '../modules/GameSetting'
-import KeyCode from '../modules/KeyCode'
+import GameSetting from '../../modules/GameSetting'
+import KeyCode from '../../modules/KeyCode'
 
-import GridRow from './GridRow'
-import Top from './Top'
-import Result from './Result'
-import NextField from './NextField'
-import ControllerButton from './ControllerButton'
+import GridRow from '../GridRow'
+import Top from '../Top'
+import Result from '../Result'
+import NextField from '../NextField'
+import ControllerButton from '../ControllerButton'
 
-import { countColor, deleteColor } from '../modules/Algorithm'
+import { countColor, deleteColor } from '../../modules/Algorithm'
 import {
   getMovedFirstColumn, getMovedSecondColumn,
   getRotatedSecondColumn, getRotatedSecondRow
-} from '../modules/KeyOperation'
+} from '../../modules/KeyOperation'
+
+import './Styles.css'
 
 const initialTopState = {
   firstColumn: GameSetting.initialColumn,
@@ -224,28 +226,28 @@ export default class Field extends React.Component {
       }
     }
 
-    // setTimeout(function() { "do something" }.bind(this), 300); equals
-    // setTimeout(() => { "do something" }, 300);
     setTimeout(() => {
       // delete
       this.setState({ gridStates: updatedGridStates })
 
       setTimeout(() => {
-        const allocatedGridsWithCount = this.allocateGrids(updatedGridStates)
-        const count = allocatedGridsWithCount.count
-        updatedGridStates = allocatedGridsWithCount.gridStates
-
-        // drop
-        this.setState({ gridStates: updatedGridStates })
-
-        if (count > 0) {
-          setTimeout(() => { this.chain(updatedGridStates, chainCount) }, 250)
-        } else {
-          setTimeout(() => { this.setState({ keyAccept: true }) }, 50)
-        }
+        this.dropGrids(updatedGridStates, chainCount)
       }, 200)
     }, 200)
     return updatedGridStates
+  }
+
+  dropGrids (updatedGridStates ,chainCount) {
+    const { count, gridStates } = this.allocateGrids(updatedGridStates)
+
+    // drop
+    this.setState({ gridStates })
+
+    if (count > 0) {
+      setTimeout(() => { this.chain(gridStates, chainCount) }, 250)
+    } else {
+      setTimeout(() => { this.setState({ keyAccept: true }) }, 50)
+    }
   }
 
   allocateGrids (gridStates) {
@@ -266,31 +268,6 @@ export default class Field extends React.Component {
     return { count: count, gridStates: newGridStates }
   }
 
-  style () {
-    return ({
-      fieldWrap: {
-        width: '420px',
-        height: '300px',
-        display: 'block',
-        clear: 'both',
-        content: ''
-      },
-      field: {
-        float: 'left',
-        height: '300px',
-        width: '260px'
-      },
-      clear: {
-        clear: 'both',
-        height: '10px'
-      },
-      controllerButtomWrap: {
-        width: '220px',
-        height: '35px'
-      }
-    })
-  }
-
   render () {
     const grids = this.state.gridStates.map((gridStateRow, j) => {
       return (
@@ -302,8 +279,8 @@ export default class Field extends React.Component {
     })
     return (
       <div>
-        <div style={this.style().fieldWrap}>
-          <div style={this.style().field}>
+        <div className="FieldWrap">
+          <div className="Field">
             <Top
               handleDown={this.handleDown}
               topState={this.state.topState}
@@ -314,12 +291,12 @@ export default class Field extends React.Component {
           <NextField nextState={this.state.nextState} />
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
-        <div style={this.style().controllerButtomWrap}>
+        <div className="ControllerButtomWrap">
           <ControllerButton position='left' handleLeft={this.onKeyDown} />
           <ControllerButton position='right' handleRight={this.onKeyDown} />
           <ControllerButton position='b' handleB={this.onKeyDown} />
           <ControllerButton position='y' handleY={this.onKeyDown} />
-          <div style={this.style().clear} />
+          <div className="Clear" />
         </div>
         <ControllerButton position='down' handleDown={this.onKeyDown} />
       </div>

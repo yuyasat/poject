@@ -4,10 +4,10 @@
   height: 20px;
   white-space: pre-wrap;
 }
-.Top {
-  border: none;
+.TopGrid {
+  border: 1px solid #ffffff;
 }
-.Field {
+.FieldGrid {
   border: 1px solid #000000;
 }
 .Grid1 {
