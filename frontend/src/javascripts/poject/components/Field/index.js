@@ -210,11 +210,11 @@ export default class Field extends React.Component {
   chain (newGridStates, chainCount) {
     let updatedGridStates = newGridStates
     let deletedColor = 0
-    for (let j = 0; j < newGridStates.length; j++) {
-      for (let i = 0; i < newGridStates[0].length; i++) {
-        if (newGridStates[j][i].color > 0 && countColor(j, i, newGridStates) >= 4) {
-          if (deletedColor === 0 || deletedColor === newGridStates[j][i].color) {
-            deletedColor = newGridStates[j][i].color
+    newGridStates.forEach((grids, j) => {
+      grids.forEach((grid, i) => {
+        if(grid.color > 0 && countColor(j, i, newGridStates) >= 4) {
+          if (deletedColor === 0 || deletedColor === grid.color) {
+            deletedColor = grid.color
             chainCount++
           }
           updatedGridStates = deleteColor(j, i, newGridStates)
@@ -223,8 +223,8 @@ export default class Field extends React.Component {
             this.setState({ maxChainCount: chainCount })
           }
         }
-      }
-    }
+      })
+    });
 
     setTimeout(() => {
       // delete
