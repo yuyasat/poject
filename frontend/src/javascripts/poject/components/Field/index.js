@@ -34,7 +34,7 @@ export default class Field extends React.Component {
     super(props)
 
     const gridStates = _.times(GameSetting.row, (j) => {
-      return(
+      return (
         _.times(GameSetting.column, (i) => {
           return { color: 0 }
         })
@@ -47,7 +47,7 @@ export default class Field extends React.Component {
     })
 
     const topGridStates = _.times(3, (j) => {
-      return(
+      return (
         _.times(GameSetting.column, (i) => {
           return { color: this.getInitialColor(j, i, topState) }
         })
@@ -85,11 +85,11 @@ export default class Field extends React.Component {
     document.addEventListener('keydown', this.handleKeyDown)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener('keydown', this.handleKeyDown)
   }
 
-  getInitialColor(j, i, topState) {
+  getInitialColor (j, i, topState) {
     if (i === GameSetting.initialColumn && j === GameSetting.initialSecondRow) {
       return topState.secondColor
     }
@@ -117,7 +117,7 @@ export default class Field extends React.Component {
     })
   }
 
-  getTopState(topState, keyCode) {
+  getTopState (topState, keyCode) {
     if (keyCode === KeyCode.right) {
       return {
         firstColumn: getMovedFirstColumn(topState, 'right'),
@@ -144,7 +144,7 @@ export default class Field extends React.Component {
     }
   }
 
-  getTopGridStates(topGridStates, topState) {
+  getTopGridStates (topGridStates, topState) {
     const { firstColumn, firstRow, firstColor, secondColumn, secondRow, secondColor } = topState
 
     topGridStates = _.times(3, () => {
@@ -203,7 +203,7 @@ export default class Field extends React.Component {
     this.setState({
       topGridStates: this.getTopGridStates(this.state.topGridStates, waitingTopState),
       topState: waitingTopState,
-      nextState: waitingNextState,
+      nextState: waitingNextState
     })
   }
 
@@ -211,7 +211,7 @@ export default class Field extends React.Component {
     let deletedColor = 0
     newGridStates.forEach((grids, j) => {
       grids.forEach((grid, i) => {
-        if(grid.color > 0 && countColor(j, i, newGridStates) >= 4) {
+        if (grid.color > 0 && countColor(j, i, newGridStates) >= 4) {
           if (deletedColor === 0 || deletedColor === grid.color) {
             deletedColor = grid.color
             chainCount++
@@ -223,7 +223,7 @@ export default class Field extends React.Component {
           }
         }
       })
-    });
+    })
 
     setTimeout(() => {
       // delete
@@ -236,7 +236,7 @@ export default class Field extends React.Component {
     return newGridStates
   }
 
-  dropGrids (newGridStates ,chainCount) {
+  dropGrids (newGridStates, chainCount) {
     const { count, gridStates } = allocateGrids(newGridStates)
 
     this.setState({ gridStates })
@@ -247,7 +247,6 @@ export default class Field extends React.Component {
       this.setState({ keyAccept: true })
     }
   }
-
 
   render () {
     const grids = this.state.gridStates.map((gridStateRow, j) => {
@@ -260,8 +259,8 @@ export default class Field extends React.Component {
     })
     return (
       <div>
-        <div className="FieldWrap">
-          <div className="Field">
+        <div className='FieldWrap'>
+          <div className='Field'>
             <Top
               handleDown={this.handleDown}
               topState={this.state.topState}

@@ -4,7 +4,7 @@ import Grid from '../Grid'
 
 import './Styles.css'
 
-export default function GridRow(props) {
+export default function GridRow (props) {
   const row = props.gridStateRow.map((gridState, i) => {
     return (
       <Grid
@@ -15,7 +15,7 @@ export default function GridRow(props) {
   })
 
   return (
-    <div className="GridRow">
+    <div className='GridRow'>
       {row}
     </div>
   )

@@ -4,11 +4,11 @@ import Grid from '../Grid'
 
 import './Styles.css'
 
-export default function NextField(props) {
+export default function NextField (props) {
   const { firstColor, secondColor } = props.nextState
 
   return (
-    <div className="NextField">
+    <div className='NextField'>
       Next<br />
       <Grid gridState={{ color: secondColor }} /><br />
       <Grid gridState={{ color: firstColor }} />

@@ -1,6 +1,6 @@
 import Setting from './GameSetting'
 
-export function getMovedFirstColumn(topState, move) {
+export function getMovedFirstColumn (topState, move) {
   const { firstColumn } = topState
 
   if (isValidMove(topState, move)) {
@@ -9,7 +9,7 @@ export function getMovedFirstColumn(topState, move) {
   return firstColumn
 }
 
-export function getMovedSecondColumn(topState, move) {
+export function getMovedSecondColumn (topState, move) {
   const { secondColumn } = topState
 
   if (isValidMove(topState, move)) {
@@ -34,7 +34,7 @@ function isValidMove (topState, move) {
   return true
 }
 
-export function getRotatedSecondColumn(topState, rotation) {
+export function getRotatedSecondColumn (topState, rotation) {
   const { firstColumn, firstRow, secondColumn, secondRow } = topState
 
   if (!isValidRotation(topState, rotation)) { return secondColumn }
@@ -48,7 +48,7 @@ export function getRotatedSecondColumn(topState, rotation) {
   return firstColumn
 }
 
-export function getRotatedSecondRow(topState, rotation) {
+export function getRotatedSecondRow (topState, rotation) {
   const { firstColumn, firstRow, secondColumn, secondRow } = topState
 
   if (!isValidRotation(topState, rotation)) { return secondRow }

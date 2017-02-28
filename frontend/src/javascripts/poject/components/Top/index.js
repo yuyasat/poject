@@ -28,7 +28,7 @@ export default class Top extends React.Component {
       )
     })
     return (
-      <div className="TopField">
+      <div className='TopField'>
         {gridRows}
       </div>
     )

@@ -3,5 +3,5 @@ export default {
   column: 7,
   initialColumn: 2,
   initialFirstRow: 1,
-  initialSecondRow: 0,
+  initialSecondRow: 0
 }
