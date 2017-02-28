@@ -8,7 +8,7 @@ import GridRow from '../GridRow'
 import Top from '../Top'
 import Result from '../Result'
 import NextField from '../NextField'
-import ControllerButton from '../ControllerButton'
+import Controller from '../Controller'
 
 import { countColor, deleteColor, allocateGrids } from '../../modules/Algorithm'
 import {
@@ -70,23 +70,23 @@ export default class Field extends React.Component {
     }
 
     this.handleDown = this.handleDown.bind(this)
-    this.onKeyDown = this.onKeyDown.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   componentDidUpdate () {
     if (this.state.keyAccept) {
-      document.addEventListener('keydown', this.onKeyDown)
+      document.addEventListener('keydown', this.handleKeyDown)
     } else {
-      document.removeEventListener('keydown', this.onKeyDown)
+      document.removeEventListener('keydown', this.handleKeyDown)
     }
   }
 
   componentDidMount () {
-    document.addEventListener('keydown', this.onKeyDown)
+    document.addEventListener('keydown', this.handleKeyDown)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown)
+    document.removeEventListener('keydown', this.handleKeyDown)
   }
 
   getInitialColor(j, i, topState) {
@@ -99,7 +99,7 @@ export default class Field extends React.Component {
     return 0
   }
 
-  onKeyDown (e) {
+  handleKeyDown (e) {
     if (e.keyCode === KeyCode.down) {
       this.handleDown()
       return
@@ -272,14 +272,7 @@ export default class Field extends React.Component {
           <NextField nextState={this.state.nextState} />
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
-        <div className="ControllerButtomWrap">
-          <ControllerButton position='left' handleLeft={this.onKeyDown} />
-          <ControllerButton position='right' handleRight={this.onKeyDown} />
-          <ControllerButton position='b' handleB={this.onKeyDown} />
-          <ControllerButton position='y' handleY={this.onKeyDown} />
-          <div className="Clear" />
-        </div>
-        <ControllerButton position='down' handleDown={this.onKeyDown} />
+        <Controller onKeyDown={this.handleKeyDown} />
       </div>
     )
   }

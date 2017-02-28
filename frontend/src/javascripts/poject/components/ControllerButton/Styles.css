@@ -1,0 +1,47 @@
+.ButtonLeft {
+  float: left;
+  width: 0;
+  height: 0;
+  margin-left: -15px;
+  margin-right: 20px;
+  border-top: 15px solid transparent;
+  border-right: 25px solid #bdbdbd;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid transparent;
+}
+.ButtonRight {
+  float: left;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 25px solid #bdbdbd;
+}
+.ButtonDown {
+  width: 0;
+  height: 0;
+  margin-left: 25px;
+  border-top: 20px solid #bdbdbd;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+.ButtonX {
+  float: right;
+  background-color: #facc2e;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 5px;
+}
+.ButtonZ {
+  float: right;
+  background-color: #04b431;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+}
