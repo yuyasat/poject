@@ -32,9 +32,9 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
 
-    const gridStates = _.times(GameSetting.row, (j) => {
+    const gridStates = _.times(GameSetting.row, () => {
       return (
-        _.times(GameSetting.column, (i) => {
+        _.times(GameSetting.column, () => {
           return { color: Color.none }
         })
       )
@@ -45,7 +45,7 @@ export default class Field extends React.Component {
       secondColor: Math.floor(Math.random() * 4) + 1
     })
 
-    const topGridStates = _.times(3, (j) => {
+    const topGridStates = _.times(GameSetting.topFieldRow, (j) => {
       return (
         _.times(GameSetting.column, (i) => {
           return { color: this.getInitialColor(j, i, topState) }
@@ -146,7 +146,7 @@ export default class Field extends React.Component {
   getTopGridStates (topGridStates, topState) {
     const { firstColumn, firstRow, firstColor, secondColumn, secondRow, secondColor } = topState
 
-    topGridStates = _.times(3, () => {
+    topGridStates = _.times(GameSetting.topFieldRow, () => {
       return _.times(GameSetting.column, () => { return { color: Color.none } })
     })
     topGridStates[firstRow][firstColumn].color = firstColor
