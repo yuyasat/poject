@@ -95,7 +95,7 @@ export default class Field extends React.Component {
     if (i === GameSetting.initialColumn && j === GameSetting.initialFirstRow) {
       return topState.firstColor
     }
-    return 0
+    return Color.none
   }
 
   handleKeyDown (e) {
@@ -112,7 +112,7 @@ export default class Field extends React.Component {
 
     this.setState({
       topGridStates: this.getTopGridStates(this.state.topGridStates, topState),
-      topState: topState
+      topState
     })
   }
 
@@ -225,7 +225,6 @@ export default class Field extends React.Component {
     })
 
     setTimeout(() => {
-      // delete
       this.setState({ gridStates: newGridStates })
 
       setTimeout(() => {
