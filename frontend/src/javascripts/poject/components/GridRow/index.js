@@ -20,3 +20,8 @@ export default function GridRow (props) {
     </div>
   )
 }
+
+GridRow.propTypes = {
+  gridStateRow: React.PropTypes.array,
+  type: React.PropTypes.string
+}

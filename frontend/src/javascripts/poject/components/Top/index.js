@@ -5,19 +5,6 @@ import GridRow from '../GridRow'
 import './Styles.css'
 
 export default class Top extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = this.props.topState
-  }
-
-  componentWillReceiveProps (newProps) {
-    if (newProps.keyAccept) {
-      this.state = newProps.topState
-    } else {
-      this.setState({ color1: 0, color2: 0 })
-    }
-  }
-
   render () {
     const gridRows = this.props.topGridStates.map((gridStateRow, j) => {
       return (
@@ -33,4 +20,8 @@ export default class Top extends React.Component {
       </div>
     )
   }
+}
+
+Top.propTypes = {
+  topGridStates: React.PropTypes.array
 }

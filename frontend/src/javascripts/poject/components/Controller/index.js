@@ -18,3 +18,7 @@ export default function Controller (props) {
     </div>
   )
 }
+
+Controller.propTypes = {
+  onKeyDown: React.PropTypes.func
+}

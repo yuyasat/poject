@@ -15,3 +15,10 @@ export default function NextField (props) {
     </div>
   )
 }
+
+NextField.propTypes = {
+  nextState: React.PropTypes.shape({
+    firstColor: React.PropTypes.number,
+    secondColor: React.PropTypes.number
+  })
+}

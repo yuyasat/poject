@@ -22,3 +22,8 @@ export default class Result extends React.Component {
     )
   }
 }
+
+Result.propTypes = {
+  chainCount: React.PropTypes.number,
+  maxChainCount: React.PropTypes.number
+}

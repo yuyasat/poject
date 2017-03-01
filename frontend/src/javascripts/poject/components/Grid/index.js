@@ -9,3 +9,10 @@ export default function Grid (props) {
     <div className={`Grid ${colorName} ${props.type}Grid`} />
   )
 }
+
+Grid.propTypes = {
+  gridState: React.PropTypes.shape({
+    color: React.PropTypes.number
+  }),
+  type: React.PropTypes.string
+}

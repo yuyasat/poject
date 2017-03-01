@@ -22,3 +22,8 @@ export default class ControllerButton extends React.Component {
     )
   }
 }
+
+ControllerButton.propTypes = {
+  onClick: React.PropTypes.func,
+  position: React.PropTypes.string
+}
