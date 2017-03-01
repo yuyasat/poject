@@ -15,10 +15,8 @@ export default class ControllerButton extends React.Component {
   }
 
   render () {
-    const position = this.props.position
-    const className = `Button${position.charAt(0).toUpperCase() + position.slice(1)}`
     return (
-      <div className={className} onClick={this.handleClick} />
+      <div className={`Button${this.props.position}`} onClick={this.handleClick} />
     )
   }
 }
