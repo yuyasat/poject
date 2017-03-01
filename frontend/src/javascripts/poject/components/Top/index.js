@@ -4,22 +4,20 @@ import GridRow from '../GridRow'
 
 import './Styles.css'
 
-export default class Top extends React.Component {
-  render () {
-    const gridRows = this.props.topGridStates.map((gridStateRow, j) => {
-      return (
-        <GridRow
-          key={'row' + j}
-          type='Top'
-          gridStateRow={gridStateRow} />
-      )
-    })
+export default function Top (props) {
+  const gridRows = props.topGridStates.map((gridStateRow, j) => {
     return (
-      <div className='TopField'>
-        {gridRows}
-      </div>
+      <GridRow
+        key={'row' + j}
+        type='Top'
+        gridStateRow={gridStateRow} />
     )
-  }
+  })
+  return (
+    <div className='TopField'>
+      {gridRows}
+    </div>
+  )
 }
 
 Top.propTypes = {
