@@ -3,6 +3,7 @@ import _ from 'lodash'
 
 import GameSetting from '../../modules/GameSetting'
 import KeyCode from '../../modules/KeyCode'
+import Color from '../../modules/Color'
 
 import GridRow from '../GridRow'
 import Top from '../Top'
@@ -23,20 +24,18 @@ const initialTopState = {
   secondColumn: GameSetting.initialColumn,
   firstRow: GameSetting.initialFirstRow,
   secondRow: GameSetting.initialSecondRow,
-  firstColor: 0,
-  secondColor: 0
+  firstColor: Color.none,
+  secondColor: Color.none
 }
 
 export default class Field extends React.Component {
-  // TODO: Keep the color number as static variable.
-  // 1: red, 2: blue, 3: green, 4: yellow
   constructor (props) {
     super(props)
 
     const gridStates = _.times(GameSetting.row, (j) => {
       return (
         _.times(GameSetting.column, (i) => {
-          return { color: 0 }
+          return { color: Color.none }
         })
       )
     })
@@ -148,7 +147,7 @@ export default class Field extends React.Component {
     const { firstColumn, firstRow, firstColor, secondColumn, secondRow, secondColor } = topState
 
     topGridStates = _.times(3, () => {
-      return _.times(GameSetting.column, () => { return { color: 0 } })
+      return _.times(GameSetting.column, () => { return { color: Color.none } })
     })
     topGridStates[firstRow][firstColumn].color = firstColor
     topGridStates[secondRow][secondColumn].color = secondColor
@@ -162,7 +161,7 @@ export default class Field extends React.Component {
 
     let newGridStates = this.state.gridStates
 
-    if (firstColumn === secondColumn && newGridStates[0][firstColumn].color !== 0) { return }
+    if (firstColumn === secondColumn && newGridStates[0][firstColumn].color !== Color.none) { return }
 
     let r1 = GameSetting.row - 1
     let row1 = secondRow === firstRow + 1 ? r1 - 1 : r1
@@ -208,11 +207,11 @@ export default class Field extends React.Component {
   }
 
   chain (newGridStates, chainCount) {
-    let deletedColor = 0
+    let deletedColor = Color.none
     newGridStates.forEach((grids, j) => {
       grids.forEach((grid, i) => {
-        if (grid.color > 0 && countColor(j, i, newGridStates) >= 4) {
-          if (deletedColor === 0 || deletedColor === grid.color) {
+        if (grid.color !== Color.none && countColor(j, i, newGridStates) >= 4) {
+          if (deletedColor === Color.none || deletedColor === grid.color) {
             deletedColor = grid.color
             chainCount++
           }

@@ -1,9 +1,10 @@
 import GameSetting from './GameSetting'
+import Color from './Color'
 
 export function countColor (j, i, gridStates) {
-  const color = gridStates[j][i].color
+  const { color } = gridStates[j][i]
   let n = 1
-  gridStates[j][i].color = 0
+  gridStates[j][i].color = Color.none
   if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
     n += countColor(j - 1, i, gridStates)
   }
@@ -21,8 +22,8 @@ export function countColor (j, i, gridStates) {
 }
 
 export function deleteColor (j, i, gridStates) {
-  const color = gridStates[j][i].color
-  gridStates[j][i].color = 0
+  const { color } = gridStates[j][i]
+  gridStates[j][i].color = Color.none
   if (j - 1 >= 0 && gridStates[j - 1][i].color === color) {
     deleteColor(j - 1, i, gridStates)
   }
@@ -47,7 +48,7 @@ export function allocateGrids (gridStates) {
         spaces++
       } else if (spaces > 0) {
         gridStates[j + spaces][i].color = gridStates[j][i].color
-        gridStates[j][i].color = 0
+        gridStates[j][i].color = Color.none
         count++
       }
     }
