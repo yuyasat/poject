@@ -11,7 +11,10 @@ import Result from '../Result'
 import NextField from '../NextField'
 import Controller from '../Controller'
 
-import { countColor, deleteColor, allocateGrids } from '../../modules/Algorithm'
+import {
+  getDropedGridStates, isColumnFilled,
+  countColor, deleteColor, allocateGrids
+} from '../../modules/Algorithm'
 import {
   getMovedFirstColumn, getMovedSecondColumn,
   getRotatedSecondColumn, getRotatedSecondRow
@@ -156,37 +159,17 @@ export default class Field extends React.Component {
   }
 
   handleDown () {
-    const topState = this.state.topState
-    const { firstColumn, firstRow, secondColumn, secondRow } = topState
+    if (isColumnFilled(this.state.gridStates, this.state.topState)) { return }
 
-    let newGridStates = this.state.gridStates
-
-    if (firstColumn === secondColumn && newGridStates[0][firstColumn].color !== Color.none) { return }
-
-    let r1 = GameSetting.row - 1
-    let row1 = secondRow === firstRow + 1 ? r1 - 1 : r1
-    while (r1 >= 0 && newGridStates[r1][topState.firstColumn].color) {
-      row1 = secondRow === firstRow + 1 ? r1 - 2 : r1 - 1
-      r1--
-    }
-
-    let r2 = GameSetting.row - 1
-    let row2 = secondRow === firstRow - 1 ? r2 - 1 : r2
-    while (r2 >= 0 && newGridStates[r2][secondColumn].color) {
-      row2 = secondRow === firstRow - 1 ? r2 - 2 : r2 - 1
-      r2--
-    }
-
-    if (row1 >= 0) { newGridStates[row1][firstColumn].color = topState.firstColor }
-    if (row2 >= 0) { newGridStates[row2][secondColumn].color = topState.secondColor }
+    const gridStates = getDropedGridStates(this.state.gridStates, this.state.topState)
 
     this.setState({
-      gridStates: newGridStates,
+      gridStates,
       keyAccept: false
     })
 
     setTimeout(() => {
-      this.chain(newGridStates, 0)
+      this.chain(gridStates, 0)
     }, 200)
 
     const waitingTopState = Object.assign(initialTopState, {
