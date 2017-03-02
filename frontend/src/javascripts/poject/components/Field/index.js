@@ -189,16 +189,34 @@ export default class Field extends React.Component {
     })
   }
 
-  chain (newGridStates, chainCount) {
+  chain (chainedGridStates, chainCount) {
+    const {
+      gridStates, countedChainCount
+    } = this.getDeletedGridStates(chainedGridStates, chainCount)
+
+    chainCount = countedChainCount
+
+    setTimeout(() => {
+      this.setState({ gridStates })
+
+      setTimeout(() => {
+        this.dropGrids(gridStates, chainCount)
+      }, 200)
+    }, 200)
+
+    return gridStates
+  }
+
+  getDeletedGridStates (gridStates, chainCount) {
     let deletedColor = Color.none
-    newGridStates.forEach((grids, j) => {
+    gridStates.forEach((grids, j) => {
       grids.forEach((grid, i) => {
-        if (grid.color !== Color.none && countColor(j, i, newGridStates) >= 4) {
+        if (grid.color !== Color.none && countColor(j, i, gridStates) >= 4) {
           if (deletedColor === Color.none || deletedColor === grid.color) {
             deletedColor = grid.color
             chainCount++
           }
-          newGridStates = deleteColor(j, i, newGridStates)
+          gridStates = deleteColor(j, i, gridStates)
           this.setState({ chainCount: chainCount })
           if (this.state.maxChainCount < chainCount) {
             this.setState({ maxChainCount: chainCount })
@@ -207,18 +225,11 @@ export default class Field extends React.Component {
       })
     })
 
-    setTimeout(() => {
-      this.setState({ gridStates: newGridStates })
-
-      setTimeout(() => {
-        this.dropGrids(newGridStates, chainCount)
-      }, 200)
-    }, 200)
-    return newGridStates
+    return { gridStates, countedChainCount: chainCount }
   }
 
-  dropGrids (newGridStates, chainCount) {
-    const { count, gridStates } = allocateGrids(newGridStates)
+  dropGrids (deletedGridStates, chainCount) {
+    const { count, gridStates } = allocateGrids(deletedGridStates)
 
     this.setState({ gridStates })
 
