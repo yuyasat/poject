@@ -21,17 +21,20 @@ export function getMovedSecondColumn (topState, move) {
 function isValidMove (topState, move) {
   const { firstColumn, secondColumn } = topState
 
-  if (move === 'left') {
-    if (firstColumn === 0) { return false }
-    if (firstColumn === 1 && secondColumn === 0) { return false }
+  switch (move) {
+    case 'left':
+      if (firstColumn === 0) { return false }
+      if (firstColumn === 1 && secondColumn === 0) { return false }
+      return true
+    case 'right':
+      if (firstColumn === Setting.column - 1) { return false }
+      if (firstColumn === Setting.column - 2 && secondColumn === Setting.column - 1) {
+        return false
+      }
+      return true
+    default:
+      return true
   }
-  if (move === 'right') {
-    if (firstColumn === Setting.column - 1) { return false }
-    if (firstColumn === Setting.column - 2 && secondColumn === Setting.column - 1) {
-      return false
-    }
-  }
-  return true
 }
 
 export function getRotatedSecondColumn (topState, rotation) {

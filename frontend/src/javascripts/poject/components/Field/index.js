@@ -35,26 +35,22 @@ export default class Field extends React.Component {
   constructor (props) {
     super(props)
 
-    const gridStates = _.times(GameSetting.row, () => {
-      return (
-        _.times(GameSetting.column, () => {
-          return { color: Color.none }
-        })
-      )
-    })
+    const gridStates = _.times(GameSetting.row, () =>
+      _.times(GameSetting.column, () => ({
+        color: Color.none
+      }))
+    )
 
     const topState = Object.assign(initialTopState, {
       firstColor: Math.floor(Math.random() * 4) + 1,
       secondColor: Math.floor(Math.random() * 4) + 1
     })
 
-    const topGridStates = _.times(GameSetting.topFieldRow, (j) => {
-      return (
-        _.times(GameSetting.column, (i) => {
-          return { color: this.getInitialColor(j, i, topState) }
-        })
-      )
-    })
+    const topGridStates = _.times(GameSetting.topFieldRow, (j) =>
+      _.times(GameSetting.column, (i) => ({
+        color: this.getInitialColor(j, i, topState)
+      }))
+    )
 
     const nextState = {
       firstColor: Math.floor(Math.random() * 4) + 1,
@@ -114,7 +110,7 @@ export default class Field extends React.Component {
     )
 
     this.setState({
-      topGridStates: this.getTopGridStates(this.state.topGridStates, topState),
+      topGridStates: this.getTopGridStates(topState),
       topState
     })
   }
@@ -146,12 +142,15 @@ export default class Field extends React.Component {
     }
   }
 
-  getTopGridStates (topGridStates, topState) {
+  getTopGridStates (topState) {
     const { firstColumn, firstRow, firstColor, secondColumn, secondRow, secondColor } = topState
 
-    topGridStates = _.times(GameSetting.topFieldRow, () => {
-      return _.times(GameSetting.column, () => { return { color: Color.none } })
-    })
+    let topGridStates = _.times(GameSetting.topFieldRow, () =>
+      _.times(GameSetting.column, () => ({
+        color: Color.none
+      }))
+    )
+
     topGridStates[firstRow][firstColumn].color = firstColor
     topGridStates[secondRow][secondColumn].color = secondColor
 
@@ -183,7 +182,7 @@ export default class Field extends React.Component {
     }
 
     this.setState({
-      topGridStates: this.getTopGridStates(this.state.topGridStates, waitingTopState),
+      topGridStates: this.getTopGridStates(waitingTopState),
       topState: waitingTopState,
       nextState: waitingNextState
     })
@@ -244,7 +243,7 @@ export default class Field extends React.Component {
     const grids = this.state.gridStates.map((gridStateRow, j) => {
       return (
         <GridRow
-          key={'row' + j}
+          key={`row${j}`}
           type='Field'
           gridStateRow={gridStateRow} />
       )

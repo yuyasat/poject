@@ -8,7 +8,7 @@ export default function GridRow (props) {
   const row = props.gridStateRow.map((gridState, i) => {
     return (
       <Grid
-        key={'grid' + i}
+        key={`grid${i}`}
         type={props.type}
         gridState={gridState} />
     )

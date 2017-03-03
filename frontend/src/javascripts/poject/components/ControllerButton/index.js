@@ -11,12 +11,12 @@ export default class ControllerButton extends React.Component {
   }
 
   handleClick () {
-    this.props.onClick({ keyCode: KeyCode[this.props.position] })
+    this.props.onClick({ keyCode: KeyCode[this.props.keyName] })
   }
 
   render () {
     return (
-      <div className={`Button${this.props.position}`} onClick={this.handleClick} />
+      <div className={`Button${this.props.keyName}`} onClick={this.handleClick} />
     )
   }
 }
