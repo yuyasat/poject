@@ -9,7 +9,7 @@ export default function NextField (props) {
 
   return (
     <div className='NextField'>
-      Next<br />
+      Next{props.nextNum}
       <Grid gridState={{ color: secondColor }} /><br />
       <Grid gridState={{ color: firstColor }} />
     </div>

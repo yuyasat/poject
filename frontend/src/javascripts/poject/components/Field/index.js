@@ -57,11 +57,17 @@ export default class Field extends React.Component {
       secondColor: Math.floor(Math.random() * 4) + 1
     }
 
+    const nextNextState = {
+      firstColor: Math.floor(Math.random() * 4) + 1,
+      secondColor: Math.floor(Math.random() * 4) + 1
+    }
+
     this.state = {
       gridStates,
       topGridStates,
       topState,
       nextState,
+      nextNextState,
       chainCount: 0,
       maxChainCount: 0,
       keyAccept: true
@@ -177,6 +183,11 @@ export default class Field extends React.Component {
     })
 
     const waitingNextState = {
+      firstColor: this.state.nextNextState.firstColor,
+      secondColor: this.state.nextNextState.secondColor
+    }
+
+    const waitingNextNextState = {
       firstColor: Math.floor(Math.random() * 4) + 1,
       secondColor: Math.floor(Math.random() * 4) + 1
     }
@@ -184,7 +195,8 @@ export default class Field extends React.Component {
     this.setState({
       topGridStates: this.getTopGridStates(waitingTopState),
       topState: waitingTopState,
-      nextState: waitingNextState
+      nextState: waitingNextState,
+      nextNextState: waitingNextNextState
     })
   }
 
@@ -259,7 +271,8 @@ export default class Field extends React.Component {
               keyAccept={this.state.keyAccept} />
             {grids}
           </div>
-          <NextField nextState={this.state.nextState} />
+          <NextField nextNum='1' nextState={this.state.nextState} />
+          <NextField nextNum='2' nextState={this.state.nextNextState} />
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
         <Controller onKeyDown={this.handleKeyDown} />
