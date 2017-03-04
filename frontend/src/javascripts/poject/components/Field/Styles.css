@@ -1,6 +1,6 @@
 .FieldWrap {
   width: 420px;
-  height: 350px;
+  min-height: 350px;
   display: block;
   clear: both;
   content: '';

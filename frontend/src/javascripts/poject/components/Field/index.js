@@ -251,6 +251,18 @@ export default class Field extends React.Component {
     }
   }
 
+  styles() {
+    return({
+      fieldWrap: {
+        width: `${GameSetting.column * 30 + 200}px`,
+        height: `${GameSetting.row * 20 + 140}px`
+      },
+      field: {
+        width: `${GameSetting.column * 30 + 50}px`
+      }
+    })
+  }
+
   render () {
     const grids = this.state.gridStates.map((gridStateRow, j) => {
       return (
@@ -262,8 +274,8 @@ export default class Field extends React.Component {
     })
     return (
       <div>
-        <div className='FieldWrap'>
-          <div className='Field'>
+        <div className='FieldWrap' style={this.styles().fieldWrap}>
+          <div className='Field' style={this.styles().field}>
             <Top
               handleDown={this.handleDown}
               topState={this.state.topState}
