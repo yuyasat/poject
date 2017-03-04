@@ -11,7 +11,7 @@ export default class ControllerButton extends React.Component {
   }
 
   handleClick () {
-    this.props.onClick({ keyCode: KeyCode[this.props.keyName] })
+    this.props.onClick({ keyCode: KeyCode[this.props.keyName.toLowerCase()] })
   }
 
   render () {
