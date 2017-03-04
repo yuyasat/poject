@@ -2,6 +2,7 @@
 *.log
 /log
 tmp/*
+/app/assets/javascripts/*
 /frontend/node_modules
 /frontend/src/index.js
 /frontend/public/*
