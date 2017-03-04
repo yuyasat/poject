@@ -5,6 +5,11 @@ import KeyCode from '../../modules/KeyCode'
 import './Styles.css'
 
 export default class ControllerButton extends React.Component {
+  static propTypes = {
+    onClick: React.PropTypes.func,
+    keyName: React.PropTypes.string
+  }
+
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -19,9 +24,4 @@ export default class ControllerButton extends React.Component {
       <div className={`Button${this.props.keyName}`} onClick={this.handleClick} />
     )
   }
-}
-
-ControllerButton.propTypes = {
-  onClick: React.PropTypes.func,
-  position: React.PropTypes.string
 }
