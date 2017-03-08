@@ -3,6 +3,18 @@ html
   head
     title
       | Poject
+    meta[name='keywords' content='落としゲー']
+    meta[name='description' content='４色繋げると落ちるゲームです。落ちて来ないので、自由に連鎖が組めます。']
+    meta[property='og:site_name' content='Poject']
+    meta[property='og:type' content='website']
+    meta[property='og:title' content='Poject']
+    meta[property='og:url' content='https://poject.herokuapp.com/']
+    meta[property='og:image' content='https://poject.herokuapp.com/og-poject.png']
+    meta[property='og:description' content='４色繋げると落ちるゲームです。落ちて来ないので、自由に連鎖が組めます。']
+    meta[name='twitter:card' content='website']
+    meta[name='twitter:site' content='Poject']
+    meta[name="twitter:creator" content='@poject']
+    meta[property='twitter:image:src' content='https://yourvotes.jp/og-poject.png']
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
   body
