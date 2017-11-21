@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -6,7 +7,7 @@ module.exports = {
     Poject: './src/javascripts/poject',
   },
   output: {
-    path: '../app/assets/javascripts',
+    path: path.resolve(__dirname, '../../app/assets/javascripts'),
     filename: '[name].js'
   },
   plugins: [
