@@ -283,8 +283,8 @@ export default class Field extends React.Component {
               keyAccept={this.state.keyAccept} />
             {grids}
           </div>
-          <NextField nextNum='1' nextState={this.state.nextState} />
-          <NextField nextNum='2' nextState={this.state.nextNextState} />
+          <NextField nextNum={1} nextState={this.state.nextState} />
+          <NextField nextNum={2} nextState={this.state.nextNextState} />
           <Result chainCount={this.state.chainCount} maxChainCount={this.state.maxChainCount} />
         </div>
         <Controller onKeyDown={this.handleKeyDown} />
