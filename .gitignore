@@ -8,3 +8,6 @@ tmp/*
 /frontend/public/*
 /.bundle
 /coverage
+/public/packs
+/public/packs-test
+/node_modules
