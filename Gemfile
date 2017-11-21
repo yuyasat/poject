@@ -17,6 +17,7 @@ gem 'draper', '>= 3.0.0.pre1'
 gem 'unicorn'
 gem 'activerecord-import'
 gem 'rails_12factor', group: :production
+gem 'listen'
 
 group :development do
   gem 'web-console', '~> 2.0'
