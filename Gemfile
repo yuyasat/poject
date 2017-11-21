@@ -18,6 +18,7 @@ gem 'unicorn'
 gem 'activerecord-import'
 gem 'rails_12factor', group: :production
 gem 'listen'
+gem 'webpacker', '~> 3.0'
 
 group :development do
   gem 'web-console', '~> 2.0'
