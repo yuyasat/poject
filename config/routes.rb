@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'poject' => 'pages#poject'
   get 'pages/poject' => redirect('poject', status: 301)
 
+  get 'poject_webpacker' => 'pages#poject_webpacker'
+
   get '/404' => 'errors#render_404'
   get '/500' => 'errors#render_500'
   # The priority is based upon order of creation: first created -> highest priority.

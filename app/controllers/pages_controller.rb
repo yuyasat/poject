@@ -4,4 +4,7 @@ class PagesController < ApplicationController
 
   def poject
   end
+
+  def poject_webpacker
+  end
 end
