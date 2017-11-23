@@ -1,0 +1,24 @@
+.Grid {
+  float: left;
+  width: 30px;
+  height: 20px;
+  white-space: pre-wrap;
+}
+.TopGrid {
+  border: 1px solid #ffffff;
+}
+.FieldGrid {
+  border: 1px solid #000000;
+}
+.Grid1 {
+  background: #ff0000;
+}
+.Grid2 {
+  background: #0000ff;
+}
+.Grid3 {
+  background: #00ff00;
+}
+.Grid4 {
+  background: #ffff00;
+}

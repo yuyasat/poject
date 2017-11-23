@@ -1,0 +1,12 @@
+.FieldWrap {
+  width: 420px;
+  min-height: 350px;
+  display: block;
+  clear: both;
+  content: '';
+}
+.Field {
+  float: left;
+  height: 300px;
+  width: 260px;
+}

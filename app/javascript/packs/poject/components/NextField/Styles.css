@@ -1,0 +1,10 @@
+.NextField {
+  height: 100px;
+  width: 50px;
+  float: left;
+  text-align: center;
+}
+.NextField .Grid {
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
