@@ -37,7 +37,7 @@ GEM
       activemodel (= 5.1.4)
       activesupport (= 5.1.4)
       arel (~> 8.0)
-    activerecord-import (0.20.2)
+    activerecord-import (0.21.0)
       activerecord (>= 3.2)
     activesupport (5.1.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -76,6 +76,13 @@ GEM
       simplecov
       url
     coderay (1.1.2)
+    coffee-rails (4.2.1)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0, < 5.2.x)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     coolline (0.5.0)
       unicode_utils (~> 1.4)
@@ -141,9 +148,10 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.19)
-    listen (3.0.8)
+    listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.1.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -260,6 +268,7 @@ GEM
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
     ruby-graphviz (1.2.3)
+    ruby_dep (1.5.0)
     sass (3.5.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -364,6 +373,7 @@ DEPENDENCIES
   capybara-webkit
   codeclimate-test-reporter
   codecov
+  coffee-rails
   database_cleaner
   devise
   draper (>= 3.0.0.pre1)
