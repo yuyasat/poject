@@ -7,7 +7,8 @@ const path = require('path');
 module.exports = Object.assign({}, environment.toWebpackConfig(), {
   plugins: [
     new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery' }),
-    new ManifestPlugin({ publicPath: '/packs/', writeToFileEmit: true })
+    new ManifestPlugin({ publicPath: '/packs/', writeToFileEmit: true }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module: {
     loaders: [
