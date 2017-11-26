@@ -30,6 +30,7 @@ group :development do
   gem 'html2slim'
   gem 'rb-readline'
   gem 'travis'
+  gem 'foreman'
 end
 
 group :development, :test do
